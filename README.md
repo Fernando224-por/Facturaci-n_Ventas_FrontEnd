@@ -1,8 +1,24 @@
-# React + Vite
+# Facturación_Ventas_FrontEnd
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+:construction: Proyecto en construcción :construction:
 
-Currently, two official plugins are available:
+> [!NOTE]
+>Para poder contribuir en este proyecto debes tener instalado:
+>
+>[Node JS 20.8.1](https://nodejs.org/dist/v20.8.1/node-v20.8.1-x64.msi)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> [!CAUTION]
+> Por ningun motivo deben realizar un push a la Rama **MASTER**
+> esto debido a que es la rama que se enviara a producción
+
+
+# Herramientas a Usar
+> Durante el desarrollo se utilizara:
+> + [React 18.2.0](https://react.dev/reference/react)
+> + [Axios 1.6.2](https://axios-http.com/docs/intro)
+
+# Ejecutar el servidor
+Para ejecutar la aplicación, escribe este comando en la terminar que este en el **PATH** del proyecto
+```bash
+npm run dev
+```
