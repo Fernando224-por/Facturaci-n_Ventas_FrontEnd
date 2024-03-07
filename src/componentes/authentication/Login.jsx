@@ -3,20 +3,11 @@ import React from 'react';
 // Importa Formik, Form, Field, y ErrorMessage de la biblioteca Formik para manejar formularios
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 // Importa Yup para la validación de formularios
-import * as Yup from 'yup';
-
-// Define un esquema de validación para los campos del formulario usando Yup
-const validationSchema = Yup.object({
- email: Yup.string()
-    .email('The email is not valid') // Valida que el email sea válido
-    .required('E-mail is required'), // Marca el email como requerido
- password: Yup.string()
-    .required('Password is required'), // Marca la contraseña como requerida
-});
+import {loginValidations} from '../../validations/schema.js';
 
 // Define el componente Login que renderiza el formulario de inicio de sesión
 function Login() {
- return (
+  return (
     <div className="login-form sing-in">
       <Formik
         // Define los valores iniciales para los campos del formulario
@@ -25,7 +16,7 @@ function Login() {
           password: '',
         }}
         // Asigna el esquema de validación definido anteriormente
-        validationSchema={validationSchema}
+        validationSchema={loginValidations}
         // Maneja el envío del formulario
         onSubmit={(values, { setSubmitting }) => {
           // Imprime los valores del formulario en la consola
@@ -48,7 +39,7 @@ function Login() {
         )}
       </Formik>
     </div>
- );
+  );
 }
 
 // Exporta el componente Login para su uso en otras partes de la aplicación
