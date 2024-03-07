@@ -2,43 +2,25 @@
 import React from 'react';
 // Importa Formik, Form, Field, y ErrorMessage de la biblioteca Formik para manejar formularios
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-// Importa Yup para la validación de formularios
-import * as Yup from 'yup';
+// Importa archivo RegisterValidations para la validación del formulario
+import {registerValidations} from '../../validations/schema.js';
 
 import { registerRequest } from '../../api/auth.js';
 
-// Define un esquema de validación para los campos del formulario usando Yup
-const validationSchema = Yup.object({
-  name: Yup.string()
-    .matches(/^[a-zA-Z\s]*$/, 'No numbers or special characters allowed') // Valida que el nombre no contenga números o caracteres especiales
-    .required('Name is required'), // Marca el nombre como requerido
-  email: Yup.string()
-    .email('Invalid email address') // Valida que el email sea válido
-    .required('E-mail is required'), // Marca el email como requerido
-  password: Yup.string()
-    .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W).{8,}$/, 'The password must have more than 8 characters, at least 1 letter, 1 number and a sign.') // Valida que la contraseña cumpla con ciertos requisitos
-    .required('Password is required'), // Marca la contraseña como requerida
-});
-
-// Define el componente Register que renderiza el formulario de registro
 function Register() {
   return (
     <div className="register-form sing-up">
       <Formik
-        // Define los valores iniciales para los campos del formulario
         initialValues={{
           name: '',
           email: '',
           password: '',
         }}
-        // Asigna el esquema de validación definido anteriormente
-        validationSchema={validationSchema}
-        // Maneja el envío del formulario
-        onSubmit={async(values, { setSubmitting }) => {
-          // Enviar valores
-          const result = await registerRequest(values);
+        validationSchema={registerValidations} // Usa el esquema de validación importado
+        onSubmit={(values, { setSubmitting }) => {
+          console.log(values);
+          const result = registerRequest(values);
           console.log(result);
-          // Desactiva el estado de envío para permitir nuevas acciones
           setSubmitting(false);
         }}
       >
@@ -60,5 +42,4 @@ function Register() {
   );
 }
 
-// Exporta el componente Register para su uso en otras partes de la aplicación
 export default Register;
