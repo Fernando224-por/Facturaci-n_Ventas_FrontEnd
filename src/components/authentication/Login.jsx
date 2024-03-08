@@ -1,12 +1,16 @@
 // Importa Formik, Form, Field, y ErrorMessage de la biblioteca Formik para manejar formularios
 import { Formik, Form, ErrorMessage } from 'formik';
+import { useNavigate } from 'react-router-dom';
 // Importa Yup para la validación de formularios
 import { loginValidations } from '../../validations/schema.js';
-
 import { loginRequest } from '../../api/auth.js';
+
+import { processSuccess, processError } from '../toaster/toaster.js';
+
 
 // Define el componente Login que renderiza el formulario de inicio de sesión
 function Login() {
+  const navigate = useNavigate()
   return (
     <div className="login-form sing-in">
       <Formik
@@ -22,9 +26,11 @@ function Login() {
           // Imprime los valores del formulario en la consola
           try {
             const res = await loginRequest(values)
-            console.log(res.data.message)
+            processSuccess(res.data.message)
+            navigate('/dashboard')
           } catch (error) {
-            console.error(error.response.data.message)
+            processError(error.response.data.message)
+            navigate('/')
           }
         }}
       >
