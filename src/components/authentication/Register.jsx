@@ -30,15 +30,15 @@ function Register() {
           <Form onSubmit={handleSubmit}>
             <h1>Sing Up</h1>
             <span>Enter the requested data</span>
-            <input placeholder='name' type="text" name="name" id="name"
+            <input placeholder='Name' type="text" name="name" id="name"
             onChange={handleChange}
             />
             <ErrorMessage component="span" name="name" />
-            <input placeholder='email' type="email" name="email" id="email-register" 
+            <input placeholder='Email' type="email" name="email" id="email-register" 
             onChange={handleChange}
             />
             <ErrorMessage component="span" name="email" />
-            <input placeholder='password' type="password" name="password" id="password-register"
+            <input placeholder='Password' type="password" name="password" id="password-register"
             onChange={handleChange}
             />
             <ErrorMessage component="span" name="password" />
