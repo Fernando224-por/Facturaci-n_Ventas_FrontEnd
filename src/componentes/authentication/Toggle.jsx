@@ -1,6 +1,3 @@
-// Importa React para usar JSX y componentes de React
-import React from "react";
-
 // Define el componente Toggle que renderiza un contenedor de alternancia
 function Toggle() {
   return (

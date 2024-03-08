@@ -1,11 +1,11 @@
 // Importa React y el hook useEffect para manejar efectos secundarios en componentes funcionales
-import React, { useEffect } from 'react';
-// Importa el archivo de estilos CSS para el componente App
-import './App.css';
+import { useEffect } from 'react';
 // Importa los componentes Login, Register y Toggle desde la carpeta de componentes de autenticación
 import Login from './componentes/authentication/Login';
 import Register from './componentes/authentication/Register';
 import Toggle from './componentes/authentication/Toggle';
+// Importa el archivo de estilos CSS para el componente App
+import './App.css';
 
 // Define el componente principal de la aplicación
 function App() {
