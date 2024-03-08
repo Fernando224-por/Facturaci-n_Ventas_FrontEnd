@@ -1,6 +1,7 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { Toaster } from "react-hot-toast";
 import VistaLogin from './views/MainPage.jsx';
-import React from 'react';
+import Dashboard from './views/Dashboard.jsx';
 
 function App() {
 
@@ -8,8 +9,10 @@ function App() {
     <div className=''>
       <BrowserRouter>
         <Routes>
-          <Route path='/login' element={<VistaLogin />} />
+          <Route path='/' element={<VistaLogin />} />
+          <Route path='/dashboard' element={<Dashboard />} />
         </Routes>
+        <Toaster />
       </BrowserRouter>
     </div>
   );
