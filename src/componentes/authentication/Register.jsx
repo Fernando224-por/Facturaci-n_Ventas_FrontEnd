@@ -1,5 +1,3 @@
-// Importa React para usar JSX y componentes de React
-import React from 'react';
 // Importa Formik, Form, Field, y ErrorMessage de la biblioteca Formik para manejar formularios
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 // Importa archivo RegisterValidations para la validación del formulario
