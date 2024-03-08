@@ -1,7 +1,7 @@
 // Importa Formik, Form, Field, y ErrorMessage de la biblioteca Formik para manejar formularios
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, ErrorMessage } from 'formik';
 // Importa archivo RegisterValidations para la validación del formulario
-import {registerValidations} from '../../validations/schema.js';
+import { registerValidations } from '../../validations/schema.js';
 
 import { registerRequest } from '../../api/auth.js';
 
@@ -15,24 +15,34 @@ function Register() {
           password: '',
         }}
         validationSchema={registerValidations} // Usa el esquema de validación importado
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
-          const result = registerRequest(values);
-          console.log(result);
-          setSubmitting(false);
+        onSubmit={async(values) => {
+          console.log(values)
+          try {
+            console.log(values)
+            const response = await registerRequest(values)
+            console.log(response.data)
+          } catch (error) {
+            console.error(error.response.data)
+          }
         }}
       >
-        {({ isSubmitting }) => (
-          <Form>
+        {({ handleChange, handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
             <h1>Sing Up</h1>
             <span>Enter the requested data</span>
-            <Field placeholder='name' type="text" name="name" id="name" />
+            <input placeholder='name' type="text" name="name" id="name"
+            onChange={handleChange}
+            />
             <ErrorMessage component="span" name="name" />
-            <Field placeholder='email' type="email" name="email" id="email-register" />
+            <input placeholder='email' type="email" name="email" id="email-register" 
+            onChange={handleChange}
+            />
             <ErrorMessage component="span" name="email" />
-            <Field placeholder='password' type="password" name="password" id="password-register" />
+            <input placeholder='password' type="password" name="password" id="password-register"
+            onChange={handleChange}
+            />
             <ErrorMessage component="span" name="password" />
-            <button type="submit" disabled={isSubmitting}>Register</button>
+            <button type="submit" >Register</button>
           </Form>
         )}
       </Formik>

@@ -1,7 +1,9 @@
 // Importa Formik, Form, Field, y ErrorMessage de la biblioteca Formik para manejar formularios
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, ErrorMessage } from 'formik';
 // Importa Yup para la validación de formularios
-import {loginValidations} from '../../validations/schema.js';
+import { loginValidations } from '../../validations/schema.js';
+
+import { loginRequest } from '../../api/auth.js';
 
 // Define el componente Login que renderiza el formulario de inicio de sesión
 function Login() {
@@ -16,23 +18,30 @@ function Login() {
         // Asigna el esquema de validación definido anteriormente
         validationSchema={loginValidations}
         // Maneja el envío del formulario
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={async (values) => {
           // Imprime los valores del formulario en la consola
-          console.log(values);
-          // Desactiva el estado de envío para permitir nuevas acciones
-          setSubmitting(false);
+          try {
+            const res = await loginRequest(values)
+            console.log(res.data.message)
+          } catch (error) {
+            console.error(error.response.data.message)
+          }
         }}
       >
-        {({ isSubmitting }) => (
-          <Form>
+        {({ handleChange, handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
             <h1>Sing In</h1>
             <span>Use your email and password</span>
-            <Field placeholder='Email' type="email" name="email" id="email-login" />
+            <input placeholder='Email' type="email" name="email" id="email-login"
+              onChange={handleChange}
+            />
             <ErrorMessage component="span" name="email" />
-            <Field placeholder='Password' type="password" name="password" id="password-login" />
+            <input placeholder='Password' type="password" name="password" id="password-login"
+              onChange={handleChange}
+            />
             <ErrorMessage component="span" name="password" />
             <a href="#" className='forgot'>Forgot your password?</a>
-            <button type="submit" disabled={isSubmitting}>Enter</button>
+            <button type="submit">Enter</button>
           </Form>
         )}
       </Formik>
