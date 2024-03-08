@@ -65,6 +65,11 @@ body {
     text-transform: uppercase;
     margin-top: 10px;
     cursor: pointer;
+    transition: transform 0.3s ease; /* Añade una transición suave para el efecto de levantamiento */
+}
+
+.App button:hover {
+    transform: translateY(-5px); /* Levanta el botón 5px hacia arriba */
 }
 
 .App button.hidden {
