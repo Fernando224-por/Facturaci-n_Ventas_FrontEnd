@@ -4,13 +4,20 @@ import { useEffect } from 'react';
 import Login from '../components/authentication/Login.jsx';
 import Register from '../components/authentication/Register.jsx';
 import Toggle from '../components/authentication/Toggle.jsx';
+import { useAuthStore } from '../state/login.state.js';
+import { useNavigate } from 'react-router-dom';
 // Importa el archivo de estilos CSS para el componente App
 import '../css/AuthenticationCss/App.css'
 
 // Define el componente principal de la aplicación
 function VistaLogin() {
+  const isAuth = useAuthStore((state) => state.isAuthenticated)
+  const navigate = useNavigate()
   // useEffect se ejecuta después de que el componente se haya renderizado en el DOM
   useEffect(() => {
+    if (isAuth) {
+      navigate('/dashboard')
+    }
     // Obtiene una referencia al contenedor principal de la aplicación
     const container = document.getElementById('App');
     // Obtiene referencias a los botones de registro y de inicio de sesión
@@ -39,7 +46,7 @@ function VistaLogin() {
       registerBtn.removeEventListener('click', handleRegisterClick);
       loginBtn.removeEventListener('click', handleLoginClick);
     };
-  }, []); // El array vacío como segundo argumento de useEffect asegura que este efecto se ejecute solo una vez después de la primera renderización
+  }, [isAuth, navigate]); // El array vacío como segundo argumento de useEffect asegura que este efecto se ejecute solo una vez después de la primera renderización
 
   // Renderiza el componente App con los componentes Register, Login y Toggle
   return (

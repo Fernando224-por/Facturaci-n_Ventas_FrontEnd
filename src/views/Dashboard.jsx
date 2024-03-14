@@ -1,6 +1,12 @@
+import { useAuthStore } from "../state/login.state.js"
 function Dashboard() {
+  const logOut = useAuthStore((state) => state.logoutUser)
   return (
-    <div>Dashboard</div>
+    <div>
+      <p>Dashboard</p>
+      <button onClick={logOut}>cerrar Sesion</button>
+    </div>
+
   )
 }
 

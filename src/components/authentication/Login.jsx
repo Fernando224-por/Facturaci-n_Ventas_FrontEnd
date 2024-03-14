@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { loginValidations } from '../../validations/schema.js';
 // Importa la función para realizar la solicitud de inicio de sesión
 import { loginRequest } from '../../api/auth.js';
+
+import { useAuthStore } from '../../state/login.state.js';
 // Importa funciones para manejar mensajes de éxito y error
 import { processSuccess, processError } from '../toaster/toaster.js';
 
@@ -13,6 +15,7 @@ import { processSuccess, processError } from '../toaster/toaster.js';
 function Login() {
   // Hook para la navegación entre páginas
   const navigate = useNavigate();
+  const logIn = useAuthStore((state) => state.loginUser)
 
   return (
     <div className="login-form sing-in">
@@ -29,6 +32,7 @@ function Login() {
           try {
             // Realiza la solicitud de inicio de sesión con los valores del formulario
             const res = await loginRequest(values);
+            await logIn(values)
             // Muestra un mensaje de éxito con la respuesta del servidor
             processSuccess(res.data.message);
             // Redirige al usuario al dashboard

@@ -5,7 +5,7 @@ import axios from "axios";
 // Establece la URL base para todas las solicitudes realizadas con esta instancia
 // Habilita el envío de cookies en las solicitudes, lo cual es necesario para autenticación y sesiones
 const instance = axios.create({
-    baseURL: 'http://localhost:4050/api', // URL base del servidor API
+    baseURL: 'http://localhost:4080/api', // URL base del servidor API
     withCredentials: true // Permite el envío de cookies en las solicitudes
 })
 
