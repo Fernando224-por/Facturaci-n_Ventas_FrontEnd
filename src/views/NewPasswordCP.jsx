@@ -1,5 +1,3 @@
-// Importa React y hooks necesarios para el manejo de estado y navegación
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 // Importa componentes de Formik para manejar el estado y la validación del formulario
 import { Formik, Form, Field, ErrorMessage } from 'formik';

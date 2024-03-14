@@ -15,6 +15,10 @@ export const loginRequest = async (data) => {
   return await instance.post("/logIn", data);
 }
 
+export const logoutRequest = async () => {
+  return await instance.post('/logout')
+}
+
 // Función para solicitar el envío de un código de recuperación de contraseña
 // @param data: Objeto con el correo electrónico del usuario
 export const enterEmailRequest = async (data) => {
@@ -34,4 +38,9 @@ export const confirmCodeRequest = async (data) => {
 export const newPasswordRequest = async (data) => {
   // Realiza una solicitud POST a la ruta "/passChange" con la nueva contraseña
   return await instance.post("/passChange", data);
+}
+
+export const verifyRequest = async () => {
+  // Realiza una solicitud POST a la ruta "/register" con los datos del usuario
+  return await instance.get("/verify");
 }
