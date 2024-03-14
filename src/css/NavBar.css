@@ -1,0 +1,177 @@
+/* Estilos generales */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #512da8;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 5px;
+   }
+
+.userIcon{
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    right: 20px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    border-radius: 10px;
+    right: 0; /* Asegúrate de que el menú desplegable esté alineado a la derecha */
+    background-color: rgb(69, 69, 69);
+    box-shadow: 0px 8px 16px 0px rgba(236, 146, 11, 0.2);
+    z-index: 1;
+    padding: 10px;
+
+   }
+
+   .logOut{
+      background-color: #512da8;
+  color: #fff;
+  width: 100%;
+  font-size: 12px;
+  padding: 10px 45px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease;/
+   }
+
+   .nombre{
+    margin-right: 20px;
+   }
+   
+   .menu {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    list-style: none;
+    padding: 0;
+   }
+   
+   .menu .item {
+    margin-right: 15px;
+   }
+   
+   .menu .item a {
+    color: white;
+    text-decoration: none;
+    padding-right: 10px;
+   }
+   
+   .menu .item.button {
+    background-color: #555;
+    padding: 10px 20px;
+    border-radius: 5px;
+   }
+   
+   .menu .item.button.secondary {
+    background-color: #777;
+   }
+   
+   .menu .toggle {
+    display: none;
+   }
+   
+   /* Estilos para dispositivos móviles */
+   @media (max-width: 600px) {
+    .menu {
+       flex-direction: column;
+    }
+   
+    .menu .item {
+       margin-right: 0;
+       margin-bottom: 15px;
+    }
+   
+    .menu .toggle {
+       display: block;
+    }
+   }
+   
+   /* Estilos para tabletas y computadoras de escritorio */
+   @media (min-width: 601px) and (max-width: 900px) {
+    .menu {
+       flex-direction: row;
+    }
+   
+    .menu .item {
+       margin-right: 15px;
+    }
+   
+    .menu .toggle {
+       display: none;
+    }
+   }
+   
+   /* Estilos para computadoras de escritorio */
+   @media (min-width: 901px) {
+    .menu {
+       flex-direction: row;
+    }
+   
+    .menu .item {
+       margin-right: 15px;
+    }
+   
+    .menu .toggle {
+       display: none;
+    }
+   }
+   
+
+   /* Estilos para el ícono de usuario y el menú desplegable */
+.user-menu {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+   }
+   
+   .user-menu i {
+    color: white;
+    font-size: 24px;
+   }
+   
+   .dropdown-menu{
+      background-color: #3c3c3cca;
+   }
+   .dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+   }
+   
+   .dropdown-menu a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+   }
+   
+   .dropdown-menu a:hover {
+    background-color: #555;
+   }
+   
+   .user-menu:hover .dropdown-menu {
+    display: block;
+   }
+   
