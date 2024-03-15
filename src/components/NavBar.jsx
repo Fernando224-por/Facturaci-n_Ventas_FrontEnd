@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../css/NavBar.css'; // Importa el archivo CSS para estilos
 import userIcon from '../media/IconoUsuario.png'; // Ajusta la ruta según donde hayas colocado el ícono
 import { useAuthStore } from "../state/login.state.js"
@@ -28,7 +28,7 @@ const Navbar = () => {
                     <img className='userIcon' src={userIcon} alt="User Icon" />
                     {showDropdown && (
                         <div className="dropdown-menu">
-                            <button className='logOut' onClick={logOut}>Configuracion</button>
+                            <button className='logOut'> Configuracion</button>
                             <button className='logOut' onClick={logOut}>cerrar Sesion</button>
                         </div>
                     )}
