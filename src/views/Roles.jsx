@@ -29,6 +29,50 @@ const RoleList = ({ roles = [] }) => {
     description: '',
   };
 
+  const [showEditModal, setShowEditModal] = useState(false);
+  // Estado para almacenar el rol que se está editando
+  const [editingRole, setEditingRole] = useState(null);
+  // Estado para almacenar los valores iniciales del formulario de edición
+  const [editFormValues, setEditFormValues] = useState(initialValues);
+
+  const editRole = (role) => {
+    if (role && role.name && role.description) {
+      setEditingRole(role);
+      setEditFormValues({
+        name: role.name,
+        description: role.description,
+      });
+      setShowEditModal(true);
+    } else {
+      console.error('El rol proporcionado es inválido o está incompleto.');
+    }
+  };
+
+  const updateRole = (id, updatedRole) => {
+    // Aquí iría la lógica para actualizar el rol en tu backend o estado local
+    console.log(`Actualizando rol con ID: ${id}`, updatedRole);
+  };
+
+  const disableRole = (id) => {
+    setData(data.map(role => {
+      if (role.id === id) {
+        return { ...role, isEnabled: false };
+      }
+      return role;
+    }));
+  };
+
+  const enableRole = (id) => {
+    setData(data.map(role => {
+      if (role.id === id) {
+        return { ...role, isEnabled: true };
+      }
+      return role;
+    }));
+  };
+
+
+
   // Esquema de validación para el formulario
   const validationSchema = Yup.object({
     name: Yup.string().required('The name of the role is required'),
@@ -66,13 +110,26 @@ const RoleList = ({ roles = [] }) => {
         id: 'acciones',
         accessor: row => (
           <div>
-            <button className="button" onClick={() => editRole(row.original)}>Editar</button>
-            <button className="button" onClick={() => disableRole(row.original)}>Deshabilitar</button>
+            {row.original && row.original.isEnabled !== undefined ? (
+              row.original.isEnabled ? (
+                <button className="buttonList" onClick={() => disableRole(row.original.id)}>Deshabilitar</button>
+              ) : (
+                <button className="buttonList" onClick={() => enableRole(row.original.id)}>Habilitar</button>
+              )
+            ) : (
+              <span className="buttonList">Estado desconocido</span>
+            )}
+            <button className="buttonList" onClick={() => editRole(row.original)}>Editar</button>
+          </div>
+        ),
+        Cell: ({ value }) => (
+          <div style={{ textAlign: "center" }}>
+            {value}
           </div>
         ),
       },
     ],
-    []
+    [data]
   );
 
   // Renderizado del componente
@@ -128,6 +185,51 @@ const RoleList = ({ roles = [] }) => {
             )}
           </Formik>
         </Modal>
+        <Modal
+          isOpen={showEditModal}
+          onRequestClose={() => setShowEditModal(false)}
+          closeTimeoutMS={500}
+          style={{
+            overlay: {
+              backgroundColor: 'rgba(94, 89, 89, 0.75)',
+            },
+            content: {
+              backgroundColor: '#f9f9f9',
+              borderRadius: '10px',
+              padding: '20px',
+              width: '500px',
+              height: '500px',
+              margin: 'auto',
+            },
+          }}
+        >
+          <Formik
+            initialValues={editingRole}
+            validationSchema={validationSchema}
+            onSubmit={(values, { setSubmitting }) => {
+              // Aquí va la lógica para actualizar el rol en tu backend o estado local
+              console.log('Actualizando rol:', values);
+              setSubmitting(false);
+              setShowEditModal(false);
+            }}
+          >
+            {({ isSubmitting }) => (
+              <Form className="role-form">
+                <h1>Editar Rol</h1>
+                <Field placeholder='Name' type="text" id="name" name="name" />
+                <ErrorMessage name="name" component="div" />
+
+                <Field placeholder='Description' className="description" as="textarea" id="description" name="description" />
+                <ErrorMessage name="description" component="div" />
+
+                <button type="submit" disabled={isSubmitting}>
+                  Actualizar
+                </button>
+              </Form>
+            )}
+          </Formik>
+        </Modal>
+
       </div>
       <Table columns={columns} data={data} />
     </div>
