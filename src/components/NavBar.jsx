@@ -35,7 +35,7 @@ const Navbar = () => {
                     <img className='userIcon' src={userIcon} alt="User Icon" />
                     {showDropdown && (
                         <div className="dropdown-menu">
-                            <button className='logOut' onClick={logOut}>Configuracion</button>
+                            <button className='logOut'> Configuracion</button>
                             <button className='logOut' onClick={logOut}>cerrar Sesion</button>
                         </div>
                     )}
