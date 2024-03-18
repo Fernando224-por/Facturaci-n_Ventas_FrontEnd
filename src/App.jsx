@@ -6,6 +6,7 @@ import ResetPassword from './views/EnterEmailCP.jsx';
 import CodeInput from './views/ConfirmCodeCP.jsx'
 import ConfirmPassword from './views/NewPasswordCP.jsx';
 import ProtectedRoutes from './hooks/ProtectedRoute.jsx'
+import RoleList from './views/Roles.jsx'
 function App() {
 
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/Code' element={<CodeInput />} />
           <Route element={<ProtectedRoutes />}>
             <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/roles' element={<RoleList />} />
           </Route>
 
         </Routes>
