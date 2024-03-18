@@ -1,5 +1,7 @@
 // Importa componentes de Formik para manejar el estado y la validación del formulario
 import { Formik, Form, ErrorMessage } from 'formik';
+
+import { useNavigate } from 'react-router-dom';
 // Importa el esquema de validación para el formulario de registro
 import { registerValidations } from '../../validations/schema.js';
 // Importa funciones para manejar mensajes de éxito y error
@@ -9,6 +11,7 @@ import { registerRequest } from '../../api/auth.js';
 
 // Componente para el formulario de registro
 function Register() {
+  const navigate = useNavigate();
   return (
     <div className="register-form sing-up">
       <Formik
@@ -27,6 +30,7 @@ function Register() {
             const res = await registerRequest(values);
             // Muestra un mensaje de éxito con la respuesta del servidor
             processSuccess(res.data.message);
+            navigate('/')
           } catch (error) {
             // Muestra un mensaje de error si la solicitud falla
             processError(error.response.data.message);
