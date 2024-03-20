@@ -1,127 +1,90 @@
-// Importa React y los hooks necesarios
+//---------------------------------importar librerias y recursos necesarios---------------------------------
 import React, { useEffect, useState } from 'react';
-// Importa componentes de Formik para manejar formularios
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-// Importa Yup para validación de formularios
-import * as Yup from 'yup';
-// Importa componentes personalizados
+
+//---------------------------------Importa estilos CSS---------------------------------
+import '../css/Roles.css'
+
+//---------------------------------Importar validaciones---------------------------------
+import { validationForm } from '../validations/schema.js'
+
+//---------------------------------Importar componentes---------------------------------
 import Navbar from '../components/NavBar.jsx';
 import Table from '../components/ReactTable.jsx';
 import Modal from 'react-modal';
-// Importa estilos CSS
-import '../css/Roles.css'
+import instance from '../api/axios.js';
 
-// Función para manejar la creación de un rol
-const createRole = (role) => {
-  console.log(role);
-};
-// Configura el elemento raíz para el modal
+//---------------------------------Importar rutas de comunicacion con el back---------------------------------
+import { createRol } from '../api/role.js'
+import { consultRole } from '../api/role.js'
+import { updateRol } from '../api/role.js'
+import { desableRol } from '../api/role.js'
+
+
+
 Modal.setAppElement('#root');
 
-// Componente principal para listar roles
-const RoleList = ({ roles = [] }) => {
-  // Estado para controlar la visibilidad del formulario
-  const [showForm, setShowForm] = useState(false);
 
-  // Valores iniciales para el formulario
-  const initialValues = {
-    name: '',
-    description: '',
-  };
+//---------------------------------Inicio del componente---------------------------------
+const RoleList = (props) => {
 
-  const [showEditModal, setShowEditModal] = useState(false);
-  // Estado para almacenar el rol que se está editando
-  const [editingRole, setEditingRole] = useState(null);
-  // Estado para almacenar los valores iniciales del formulario de edición
-  const [editFormValues, setEditFormValues] = useState(initialValues);
-
-  const editRole = (role) => {
-    if (role && role.name && role.description) {
-      setEditingRole(role);
-      setEditFormValues({
-        name: role.name,
-        description: role.description,
+  //---------------------------------Listar Roles---------------------------------
+  const fetchRoles = async () => {
+    try {
+      const response = await instance.get('/getRoles');
+      // Ordenar los roles primero por estado (activos primero), luego por ID (más recientes primero)
+      const sortedRoles = response.data.info.sort((a, b) => {
+        // Primero, ordenar por estado
+        if (a.state === 'ACTIVE' && b.state !== 'ACTIVE') {
+          return -1; // a va primero
+        }
+        if (a.state !== 'ACTIVE' && b.state === 'ACTIVE') {
+          return 1; // b va primero
+        }
+        // Si el estado es el mismo, ordenar por ID (más recientes primero)
+        return b.idRole - a.idRole; // b va primero para los más recientes
       });
-      setShowEditModal(true);
-    } else {
-      console.error('El rol proporcionado es inválido o está incompleto.');
+      setData(sortedRoles);
+    } catch (error) {
+      console.error('Error al obtener los roles:', error);
     }
   };
 
-  const updateRole = (id, updatedRole) => {
-    // Aquí iría la lógica para actualizar el rol en tu backend o estado local
-    console.log(`Actualizando rol con ID: ${id}`, updatedRole);
-  };
-
-  const disableRole = (id) => {
-    setData(data.map(role => {
-      if (role.id === id) {
-        return { ...role, isEnabled: false };
-      }
-      return role;
-    }));
-  };
-
-  const enableRole = (id) => {
-    setData(data.map(role => {
-      if (role.id === id) {
-        return { ...role, isEnabled: true };
-      }
-      return role;
-    }));
-  };
-
-
-
-  // Esquema de validación para el formulario
-  const validationSchema = Yup.object({
-    name: Yup.string().required('The name of the role is required'),
-    description: Yup.string().required('Role description is required'),
-  });
-
-  // Estado para almacenar los datos de la tabla
-  const [data, setData] = useState([]);
-
-  // Efecto para cargar datos al montar el componente
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/albums')
-      .then(response => response.json())
-      .then(data => setData(data))
-      .catch(error => console.error('Error fetching data: ', error));
+    fetchRoles();
   }, []);
 
-  // Definición de las columnas para la tabla
+
+  //---------------------------------Definición de las columnas para la tabla---------------------------------
   const columns = React.useMemo(
     () => [
       {
-        Header: 'User id',
-        accessor: 'userId',
+        Header: 'ID Role',
+        accessor: 'idRole',
       },
       {
-        Header: 'ID',
-        accessor: 'id',
+        Header: 'Name Role',
+        accessor: 'nameRole',
       },
       {
-        Header: 'Title',
-        accessor: 'title',
+        Header: 'Resume Role',
+        accessor: 'resumeRole',
+      },
+      {
+        Header: 'estado',
+        accessor: 'state',
       },
       {
         Header: 'Acciones',
         id: 'acciones',
-        accessor: row => (
-          <div>
-            {row.original && row.original.isEnabled !== undefined ? (
-              row.original.isEnabled ? (
-                <button className="buttonList" onClick={() => disableRole(row.original.id)}>Deshabilitar</button>
-              ) : (
-                <button className="buttonList" onClick={() => enableRole(row.original.id)}>Habilitar</button>
-              )
-            ) : (
-              <span className="buttonList">Estado desconocido</span>
-            )}
-            <button className="buttonList" onClick={() => editRole(row.original)}>Editar</button>
-          </div>
-        ),
+        accessor: row => {
+          return (
+            <div>
+              <button className="buttonList" onClick={() => handleEditClick(row.idRole)}>Edit</button>
+              <button className="buttonList" onClick={() => handleDisableClick(row.idRole)}>Disable</button>
+            </div>
+          );
+        },
         Cell: ({ value }) => (
           <div style={{ textAlign: "center" }}>
             {value}
@@ -129,10 +92,93 @@ const RoleList = ({ roles = [] }) => {
         ),
       },
     ],
-    [data]
+    []
   );
 
-  // Renderizado del componente
+  //---------------------------------Crear Roles---------------------------------
+  const createRole = async (values) => {
+    try {
+      const roleData = {
+        nameRole: values.name,
+        resumeRole: values.description,
+      };
+      const response = await createRol(roleData);
+    } catch (error) {
+      console.error('Error al crear el rol:', error);
+    }
+  };
+
+
+  const initialValues = {
+    name: '',
+    description: '',
+  };
+
+  //---------------------------------Editar roles---------------------------------
+
+  const [selectedRole, setSelectedRole] = useState({});
+
+
+  const handleEditClick = async (idRole) => {
+    setShowEditModal(true);
+    await loadRoleData(idRole);
+  };
+
+  const loadRoleData = async (idRole) => {
+    try {
+      const response = await consultRole(idRole);
+      setSelectedRole(response.data.info);
+    } catch (error) {
+      console.error('Error al cargar los datos del rol:', error);
+    }
+  };
+
+  const foundValues = {
+    name: selectedRole.nameRole || '',
+    description: selectedRole.resumeRole || '',
+  };
+
+  const updateRole = async (values, idRole) => {
+    try {
+      const roleData = {
+        nameRole: values.name,
+        resumeRole: values.description,
+      };
+      await updateRol(idRole, roleData);
+      fetchRoles();
+    } catch (error) {
+      console.error('Error al actualizar el rol:', error);
+    }
+  };
+
+  //------------------------------Deshabilitar Roles---------------------------
+
+  const handleDisableClick = async (idRole) => {
+    const userConfirmed = window.confirm('¿Estás seguro de que quieres deshabilitar este rol?');
+
+    if (userConfirmed) {
+      try {
+        await desableRol(idRole);
+        fetchRoles();
+      } catch (error) {
+        console.error('Error al deshabilitar el rol:', error);
+      }
+    }
+  };
+
+
+
+  //---------------------------------Modales---------------------------------
+  const [showForm, setShowForm] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+
+
+  //---------------------------------Otros---------------------------------
+  const [data, setData] = useState([]);
+
+
+
+  //---------------------------------Renderizado del componente---------------------------------
   return (
     <div className='generalContainer'>
       <h1 className='tituloRoles'>Roles</h1>
@@ -147,7 +193,7 @@ const RoleList = ({ roles = [] }) => {
           //Aqui se pone el estilo de la modal
           style={{
             overlay: {
-              backgroundColor: 'rgba(94, 89, 89, 0.75)',
+              backgroundColor: 'rgba(94, 89, 89, 0.322)',
             },
             content: {
               backgroundColor: '#f9f9f9',
@@ -161,7 +207,7 @@ const RoleList = ({ roles = [] }) => {
         >
           <Formik
             initialValues={initialValues}
-            validationSchema={validationSchema}
+            validationSchema={validationForm}
             onSubmit={(values, { setSubmitting }) => {
               createRole(values);
               setSubmitting(false);
@@ -169,7 +215,6 @@ const RoleList = ({ roles = [] }) => {
             }}
           >
             {({ isSubmitting }) => (
-              //Formulario de la modal
               <Form className="role-form">
                 <h1>Create Rol</h1>
                 <Field placeholder='Name' type="text" id="name" name="name" />
@@ -185,13 +230,14 @@ const RoleList = ({ roles = [] }) => {
             )}
           </Formik>
         </Modal>
+        {/* Modal con formulario de edicion */}
         <Modal
           isOpen={showEditModal}
           onRequestClose={() => setShowEditModal(false)}
           closeTimeoutMS={500}
           style={{
             overlay: {
-              backgroundColor: 'rgba(94, 89, 89, 0.75)',
+              backgroundColor: 'rgba(94, 89, 89, 0.322)',
             },
             content: {
               backgroundColor: '#f9f9f9',
@@ -204,11 +250,11 @@ const RoleList = ({ roles = [] }) => {
           }}
         >
           <Formik
-            initialValues={editingRole}
-            validationSchema={validationSchema}
+            initialValues={foundValues}
+            validationSchema={validationForm}
+            enableReinitialize={true}
             onSubmit={(values, { setSubmitting }) => {
-              // Aquí va la lógica para actualizar el rol en tu backend o estado local
-              console.log('Actualizando rol:', values);
+              updateRole(values, selectedRole.idRole);
               setSubmitting(false);
               setShowEditModal(false);
             }}
@@ -228,6 +274,7 @@ const RoleList = ({ roles = [] }) => {
               </Form>
             )}
           </Formik>
+
         </Modal>
 
       </div>

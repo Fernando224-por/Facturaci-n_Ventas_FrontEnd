@@ -108,7 +108,7 @@
 
 .role-table th,
 .role-table td {
-    border: 1px solid #ddd;
+    border: 1px solid #ecebfc;
     padding: 8px;
     text-align: left;
 }
@@ -120,11 +120,11 @@
 
 
 .role-table tr:nth-child(even) {
-    background-color: #522da83a;
+    background-color: #a394f1;
 }
 
 .role-table tr:hover {
-    background-color: #522da8a4;
+    background-color: #8469e9;
 }
 
 .buttonList {
@@ -214,6 +214,7 @@
     left: 29rem;
 }
 
+
 /*Titulo*/
 .tituloRoles {
     position: absolute;
@@ -221,4 +222,20 @@
     right: 42rem;
     font-size: 50px;
     text-align: center;
+}
+
+.buttonList{
+    border: none;
+    border-radius: 10px;
+    background-color: #c2bbf7 ;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.buttonList:hover{
+    color: white;
+    background-color: #6237ca;
+    cursor: pointer;
 }
