@@ -1,10 +1,10 @@
-// Importa React y los hooks necesarios de react-table
+//---------------------------------importar librerias y recursos necesarios---------------------------------
 import React from 'react';
 import { useTable, useGlobalFilter, useSortBy, usePagination } from 'react-table';
 
-// Componente Table para mostrar datos en una tabla con paginación y filtro global
+//---------------------------------Componente Table---------------------------------
 function Table({ columns, data }) {
-  // Utiliza los hooks de react-table para manejar la tabla
+  //---------------------------------hooks de react-table para manejar la tabla---------------------------------
   const {
     getTableProps,
     getTableBodyProps,
@@ -26,15 +26,15 @@ function Table({ columns, data }) {
       columns,
       data,
     },
-    useGlobalFilter, // Hook para el filtro global
-    useSortBy, // Hook para la ordenación de columnas
-    usePagination // Hook para la paginación
+    useGlobalFilter,
+    useSortBy,
+    usePagination
   );
 
-  // Renderizado del componente Table
+  //---------------------------------Renderizado del componente Table---------------------------------
   return (
     <>
-      {/* Input para el filtro global */}
+      {/* Buscador */}
       <input
         className='buscador'
         value={globalFilter || ''}
@@ -112,5 +112,4 @@ function Table({ columns, data }) {
   );
 }
 
-// Exporta el componente Table para su uso en otras partes de la aplicación
 export default Table;

@@ -1,6 +1,9 @@
 // RegisterValidations.js
 import * as Yup from 'yup';
 
+
+//------------------------------Validacion de gestion de acceso------------------------------
+
 export const registerValidations = Yup.object({
   name: Yup.string()
     .matches(/^[a-zA-Z\s]*$/, 'No numbers or special characters allowed')
@@ -16,13 +19,12 @@ export const registerValidations = Yup.object({
     ),
 });
 
-// Define un esquema de validación para los campos del formulario usando Yup
 export const loginValidations = Yup.object({
   email: Yup.string()
-    .email('The email is not valid') // Valida que el email sea válido
-    .required('E-mail is required'), // Marca el email como requerido
+    .email('The email is not valid')
+    .required('E-mail is required'),
   password: Yup.string()
-    .required('Password is required'), // Marca la contraseña como requerida
+    .required('Password is required'),
 });
 
 export const Reset = Yup.object({
@@ -41,4 +43,20 @@ export const ChangePassword = Yup.object().shape({
   newPassword: Yup.string()
     .required('Password confirmation is required')
     .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
+});
+
+
+//------------------------------Validacion de gestion de roles------------------------------
+
+export const validationForm = Yup.object({
+  name: Yup.string()
+    .required('The name of the role is required')
+    .matches(/^[A-Za-z\s]+$/, 'Only letters and spaces are allowed')
+    .min(3, 'Must be at least 3 characters')
+    .max(30, 'Must be at most 30 characters'),
+  description: Yup.string()
+    .required('Role description is required')
+    .matches(/^[A-Za-z0-9\s.,!?]+$/, 'Only letters, numbers, and punctuation marks are allowed')
+    .min(4, 'Must be at least 4 characters')
+    .max(150, 'Must be at most 150 characters'),
 });
