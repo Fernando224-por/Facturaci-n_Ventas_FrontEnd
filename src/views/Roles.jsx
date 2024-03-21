@@ -26,7 +26,7 @@ Modal.setAppElement('#root');
 
 
 //---------------------------------Inicio del componente---------------------------------
-const RoleList = (props) => {
+const UsersList = (props) => {
 
   //---------------------------------Listar Roles---------------------------------
   const fetchRoles = async () => {
@@ -224,7 +224,7 @@ const RoleList = (props) => {
                 <ErrorMessage name="description" component="div" />
 
                 <button type="submit" disabled={isSubmitting}>
-                  Crear
+                  Create
                 </button>
               </Form>
             )}
@@ -261,7 +261,7 @@ const RoleList = (props) => {
           >
             {({ isSubmitting }) => (
               <Form className="role-form">
-                <h1>Editar Rol</h1>
+                <h1>Edit Rol</h1>
                 <Field placeholder='Name' type="text" id="name" name="name" />
                 <ErrorMessage name="name" component="div" />
 
@@ -283,4 +283,4 @@ const RoleList = (props) => {
   );
 };
 
-export default RoleList;
+export default UsersList;
