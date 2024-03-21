@@ -26,7 +26,7 @@ const Navbar = () => {
             <ul className="menu">
                 <h1 className="nombre">facturacion y ventas </h1>
                 <li className="item"><a href="/roles">Roles</a></li>
-                <li className="item"><a href="">Usuarios</a></li>
+                <li className="item"><a href="/users">Usuarios</a></li>
                 <li className="item"><a href="#">Blog</a></li>
                 <li className="item"><a href="#">Contacto</a></li>
                 <li className="toggle"><a href="#"><i className="fas fa-bars"></i></a></li>

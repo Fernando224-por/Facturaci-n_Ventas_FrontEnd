@@ -7,6 +7,8 @@ import CodeInput from './views/ConfirmCodeCP.jsx'
 import ConfirmPassword from './views/NewPasswordCP.jsx';
 import ProtectedRoutes from './hooks/ProtectedRoute.jsx'
 import RoleList from './views/Roles.jsx'
+import UsersList from './views/Users.jsx'
+
 function App() {
 
   return (
@@ -20,6 +22,7 @@ function App() {
           <Route element={<ProtectedRoutes />}>
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/roles' element={<RoleList />} />
+            <Route path='/users' element={<UsersList />} />
           </Route>
 
         </Routes>
